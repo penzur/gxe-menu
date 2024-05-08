@@ -2,30 +2,56 @@
 
 module Types
   class QueryType < Types::BaseObject
-    field :node, Types::NodeType, null: true, description: "Fetches an object given its ID." do
-      argument :id, ID, required: true, description: "ID of the object."
+    field :menus, [Types::MenuType], null: true, description: 'Gets all the menu' do
+    end
+    def menus
+      Menu.all
     end
 
-    def node(id:)
-      context.schema.object_from_id(id, context)
+    field :menu, MenuType, null: true, description: 'Get menu by id' do
+      argument :id, ID, required: true
+    end
+    def menu(id:)
+      Menu.find(id)
     end
 
-    field :nodes, [Types::NodeType, null: true], null: true, description: "Fetches a list of objects given a list of IDs." do
-      argument :ids, [ID], required: true, description: "IDs of the objects."
+    field :sections, [Types::SectionType], null: true, description: 'Gets all the sections' do
+    end
+    def sections
+      Section.all
     end
 
-    def nodes(ids:)
-      ids.map { |id| context.schema.object_from_id(id, context) }
+    field :section, SectionType, null: true, description: 'Gets section by id' do
+      argument :id, ID, required: true
+    end
+    def section(id:)
+      Section.find(id)
     end
 
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
+    field :items, [Types::ItemType], null: true, description: 'Gets all the items' do
+    end
+    def items
+      Item.all
+    end
 
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    field :item, ItemType, null: true, description: 'Gets item by id' do
+      argument :id, ID, required: true
+    end
+    def item(id:)
+      Item.find(id)
+    end
+
+    field :modifier_groups, [Types::ModifierGroupType], null: true, description: 'Gets all the modifier groups' do
+    end
+    def modifier_groups
+      ModifierGroup.all
+    end
+
+    field :modifier_group, ModifierGroupType, null: true, description: 'Gets modifier group by id' do
+      argument :id, ID, required: true
+    end
+    def modifier_group(id:)
+      ModifierGroup.find(id)
     end
   end
 end
