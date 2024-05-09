@@ -6,6 +6,7 @@ module Types
     field :label, String, null: false
     field :description, String, null: false
     field :items, [Types::ItemType], null: false
+    field :menu, MenuType, null: true
 
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
