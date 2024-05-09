@@ -5,6 +5,7 @@ class CreateModifierGroups < ActiveRecord::Migration[7.1]
       t.string :label
       t.integer :selection_required_min
       t.integer :selection_required_max
+      t.references :item, foreign_key: { on_delete: :cascade }
 
       t.timestamps
     end

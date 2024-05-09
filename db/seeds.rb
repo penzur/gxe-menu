@@ -13,23 +13,24 @@ Rails.application.config.after_initialize do
                        end_date: Date.today + 1.week)
 
   # Sample Menu Sections
-  section1 = menu1.sections.create!(identifier: 'mains', label: 'Mains', description: 'Main dishes')
-  section2 = menu1.sections.create!(identifier: 'sides', label: 'Sides', description: 'Add a delicious side')
+  section1 = menu1.sections.create!(menu: menu1, identifier: 'mains', label: 'Mains', description: 'Main dishes')
+  section2 = menu1.sections.create!(menu: menu1, identifier: 'sides', label: 'Sides',
+                                    description: 'Add a delicious side')
 
   # Sample Items (Non-configurable)
-  section1.items.create!(identifier: 'pepperoni-pizza', item_type: 'Product', label: 'Pepperoni Pizza',
+  section1.items.create!(section: section1, identifier: 'pepperoni-pizza', item_type: 'Product', label: 'Pepperoni Pizza',
                          description: 'Delicious pepperoni pizza', price: 15.99)
-  section1.items.create!(identifier: 'garden-salad', item_type: 'Product', label: 'Garden Salad', description: 'Fresh and healthy salad',
+  section1.items.create!(section: section1, identifier: 'garden-salad', item_type: 'Product', label: 'Garden Salad', description: 'Fresh and healthy salad',
                          price: 8.99)
 
   # Sample Items (Configurable)
-  burger = section2.items.create!(identifier: 'build-your-burger', item_type: 'Product', label: 'Build Your Burger',
+  burger = section2.items.create!(section: section2, identifier: 'build-your-burger', item_type: 'Product', label: 'Build Your Burger',
                                   description: 'Build the burger of your dreams!', price: 12.99)
 
   # Sample Modifier Groups
-  burger_toppings = burger.modifier_groups.create!(identifier: 'toppings', label: 'Toppings', selection_required_min: 0,
+  burger_toppings = burger.modifier_groups.create!(item: burger, identifier: 'toppings', label: 'Toppings', selection_required_min: 0,
                                                    selection_required_max: 5)
-  burger_sauces = burger.modifier_groups.create!(identifier: 'sauces', label: 'Sauces', selection_required_min: 0,
+  burger_sauces = burger.modifier_groups.create!(item: burger, identifier: 'sauces', label: 'Sauces', selection_required_min: 0,
                                                  selection_required_max: 2)
 
   # Sample Modifiers

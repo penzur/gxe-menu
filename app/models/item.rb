@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
-  has_many :item_modifier_groups
-  has_many :modifier_groups, through: :item_modifier_groups
+  belongs_to :section, optional: true
+  has_many :item_modifier_groups, dependent: :destroy
+  has_many :modifier_groups, through: :item_modifier_groups, dependent: :destroy
 
   validates :identifier, presence: true
   validates :item_type, presence: true

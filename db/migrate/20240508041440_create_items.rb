@@ -6,6 +6,7 @@ class CreateItems < ActiveRecord::Migration[7.1]
       t.string :label
       t.string :description
       t.float :price
+      t.references :section, foreign_key: { on_delete: :cascade }
 
       t.timestamps
     end

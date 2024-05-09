@@ -26,8 +26,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_08_055046) do
     t.string "label"
     t.string "description"
     t.float "price"
+    t.integer "section_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["section_id"], name: "index_items_on_section_id"
   end
 
   create_table "menu_sections", force: :cascade do |t|
@@ -55,8 +57,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_08_055046) do
     t.string "label"
     t.integer "selection_required_min"
     t.integer "selection_required_max"
+    t.integer "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_modifier_groups_on_item_id"
   end
 
   create_table "modifiers", force: :cascade do |t|
@@ -85,16 +89,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_08_055046) do
     t.string "identifier"
     t.string "label"
     t.string "description"
+    t.integer "menu_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["menu_id"], name: "index_sections_on_menu_id"
   end
 
-  add_foreign_key "item_modifier_groups", "items"
-  add_foreign_key "item_modifier_groups", "modifier_groups"
-  add_foreign_key "menu_sections", "menus"
-  add_foreign_key "menu_sections", "sections"
-  add_foreign_key "modifiers", "items"
-  add_foreign_key "modifiers", "modifier_groups"
-  add_foreign_key "section_items", "items"
-  add_foreign_key "section_items", "sections"
+  add_foreign_key "item_modifier_groups", "items", on_delete: :cascade
+  add_foreign_key "item_modifier_groups", "modifier_groups", on_delete: :cascade
+  add_foreign_key "items", "sections", on_delete: :cascade
+  add_foreign_key "menu_sections", "menus", on_delete: :cascade
+  add_foreign_key "menu_sections", "sections", on_delete: :cascade
+  add_foreign_key "modifier_groups", "items", on_delete: :cascade
+  add_foreign_key "modifiers", "items", on_delete: :cascade
+  add_foreign_key "modifiers", "modifier_groups", on_delete: :cascade
+  add_foreign_key "section_items", "items", on_delete: :cascade
+  add_foreign_key "section_items", "sections", on_delete: :cascade
+  add_foreign_key "sections", "menus", on_delete: :cascade
 end
