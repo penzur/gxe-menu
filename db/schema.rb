@@ -11,9 +11,12 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_05_08_055046) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "item_modifier_groups", force: :cascade do |t|
-    t.integer "item_id", null: false
-    t.integer "modifier_group_id", null: false
+    t.bigint "item_id", null: false
+    t.bigint "modifier_group_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_item_modifier_groups_on_item_id"
@@ -26,15 +29,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_08_055046) do
     t.string "label"
     t.string "description"
     t.float "price"
-    t.integer "section_id"
+    t.bigint "section_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["section_id"], name: "index_items_on_section_id"
   end
 
   create_table "menu_sections", force: :cascade do |t|
-    t.integer "menu_id", null: false
-    t.integer "section_id", null: false
+    t.bigint "menu_id", null: false
+    t.bigint "section_id", null: false
     t.integer "display_order", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -57,15 +60,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_08_055046) do
     t.string "label"
     t.integer "selection_required_min"
     t.integer "selection_required_max"
-    t.integer "item_id"
+    t.bigint "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_modifier_groups_on_item_id"
   end
 
   create_table "modifiers", force: :cascade do |t|
-    t.integer "item_id", null: false
-    t.integer "modifier_group_id", null: false
+    t.bigint "item_id", null: false
+    t.bigint "modifier_group_id", null: false
     t.integer "display_order", default: 0
     t.integer "default_quantity", default: 0
     t.float "price_override"
@@ -76,8 +79,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_08_055046) do
   end
 
   create_table "section_items", force: :cascade do |t|
-    t.integer "section_id", null: false
-    t.integer "item_id", null: false
+    t.bigint "section_id", null: false
+    t.bigint "item_id", null: false
     t.integer "display_order", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -89,7 +92,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_08_055046) do
     t.string "identifier"
     t.string "label"
     t.string "description"
-    t.integer "menu_id"
+    t.bigint "menu_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["menu_id"], name: "index_sections_on_menu_id"
