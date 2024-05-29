@@ -3,7 +3,7 @@ module Resolvers
     type [Types::ItemType], null: false
 
     def resolve
-      Item.all
+      cache_fragment(expires_in: 3.minutes) { Item.all }
     end
   end
 end

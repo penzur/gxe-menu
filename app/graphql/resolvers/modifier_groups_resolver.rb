@@ -3,7 +3,7 @@ module Resolvers
     type [Types::ModifierGroupType], null: false
 
     def resolve
-      ModifierGroup.all
+      cache_fragment(expires_in: 3.minutes) { ModifierGroup.all }
     end
   end
 end

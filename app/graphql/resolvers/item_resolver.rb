@@ -4,7 +4,7 @@ module Resolvers
     argument :id, ID, required: true
 
     def resolve(id:)
-      Item.find(id)
+      cache_fragment(expires_in: 3.minutes) { Item.find(id) }
     end
   end
 end

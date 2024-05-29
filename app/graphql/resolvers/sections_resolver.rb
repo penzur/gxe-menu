@@ -3,7 +3,7 @@ module Resolvers
     type [Types::SectionType], null: false
 
     def resolve
-      Section.all
+      cache_fragment(expires_in: 3.minutes) { Section.all }
     end
   end
 end

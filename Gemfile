@@ -72,5 +72,8 @@ end
 
 gem 'graphiql-rails'
 gem 'graphql', '~> 2.3'
+gem 'graphql-fragment_cache'
+
+gem 'redis'
 
 gem 'dockerfile-rails', '>= 1.6', group: :development
