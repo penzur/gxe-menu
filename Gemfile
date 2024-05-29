@@ -79,3 +79,4 @@ gem 'redis'
 gem 'dockerfile-rails', '>= 1.6', group: :development
 
 gem "rexml", ">= 3.2.7"
+gem "nokogiri", ">= 1.16.5"
