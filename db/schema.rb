@@ -68,7 +68,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_08_055046) do
     t.integer "modifier_group_id", null: false
     t.integer "display_order", default: 0
     t.integer "default_quantity", default: 0
-    t.float "price_override"
+    t.decimal "price_override", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_modifiers_on_item_id"
