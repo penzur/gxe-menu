@@ -8,45 +8,64 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #       end
 Rails.application.config.after_initialize do
-  # Sample Menus
-  menu1 = Menu.create!(identifier: 'lunch-menu', label: 'Lunch Menu', state: 'active', start_date: Date.today,
-                       end_date: Date.today + 1.week)
+  # Create Menu
+menu1 = Menu.create!(
+  identifier: 'lunch-menu', label: 'Lunch Menu', state: 'active',
+  start_date: Date.today, end_date: Date.today + 1.week
+)
 
-  # Sample Menu Sections
-  section1 = menu1.sections.create!(menu: menu1, identifier: 'mains', label: 'Mains', description: 'Main dishes')
-  section2 = menu1.sections.create!(menu: menu1, identifier: 'sides', label: 'Sides',
-                                    description: 'Add a delicious side')
+# Menu Sections
+sections = %w[Appetizers Salads Sandwiches Burgers Pasta Desserts]
+sections.each do |section_name|
+  menu1.sections.create!(
+    identifier: section_name.downcase.gsub(' ', '-'),
+    label: section_name,
+    description: section_name
+  )
+end
 
-  # Sample Items (Non-configurable)
-  section1.items.create!(section: section1, identifier: 'pepperoni-pizza', item_type: 'Product', label: 'Pepperoni Pizza',
-                         description: 'Delicious pepperoni pizza', price: 15.99)
-  section1.items.create!(section: section1, identifier: 'garden-salad', item_type: 'Product', label: 'Garden Salad', description: 'Fresh and healthy salad',
-                         price: 8.99)
+# Products (10 per section, 60 total)
+sections = menu1.sections
+sections.each do |section|
+  10.times do |i|
+    section.items.create!(
+      identifier: "#{section.identifier}-item#{i + 1}",
+      item_type: 'Product',
+      label: "#{section.label} Item #{i + 1}",
+      description: section.label,
+      price: rand(5.99..19.99)
+    )
+  end
+end
 
-  # Sample Items (Configurable)
-  burger = section2.items.create!(section: section2, identifier: 'build-your-burger', item_type: 'Product', label: 'Build Your Burger',
-                                  description: 'Build the burger of your dreams!', price: 12.99)
-
-  # Sample Modifier Groups
-  burger_toppings = burger.modifier_groups.create!(item: burger, identifier: 'toppings', label: 'Toppings', selection_required_min: 0,
-                                                   selection_required_max: 5)
-  burger_sauces = burger.modifier_groups.create!(item: burger, identifier: 'sauces', label: 'Sauces', selection_required_min: 0,
-                                                 selection_required_max: 2)
-
-  # Sample Modifiers
-  burger_toppings.modifiers.create!(item: burger, display_order: 1, default_quantity: 0,
-                                    price_override: 0.50)
-  burger_toppings.modifiers.create!(item: burger, display_order: 2, default_quantity: 0,
-                                    price_override: 0.50)
-  burger_toppings.modifiers.create!(item: burger, display_order: 3, default_quantity: 0,
-                                    price_override: 0.75)
-  burger_toppings.modifiers.create!(item: burger, display_order: 4, default_quantity: 0,
-                                    price_override: 1.00)
-
-  burger_sauces.modifiers.create!(item: burger, display_order: 1, default_quantity: 0,
-                                  price_override: 0.00)
-  burger_sauces.modifiers.create!(item: burger, display_order: 2, default_quantity: 0,
-                                  price_override: 0.00)
-  burger_sauces.modifiers.create!(item: burger, display_order: 3, default_quantity: 0,
-                                  price_override: 0.50)
+# Modifier Groups and Items (2 groups per section for half the products)
+sections.each do |section|
+  section.items.first(5).each do |product|
+    2.times do |j|
+      modifier_group = product.modifier_groups.create!(
+        identifier: "#{product.identifier}-group#{j + 1}",
+        label: "Modifier Group #{j + 1}",
+        item: product,
+        selection_required_min: 0,
+        selection_required_max: 3
+      )
+      3.times do |k|
+        component = section.items.create!( # Changed from .modifiers.create!
+          item_type: 'Component', # New attribute
+          identifier: "component-#{k + 1}",
+          price: rand(5.99..19.99),
+          label: "Component #{k + 1}",
+          description: "#{modifier_group.label} Component #{k + 1}"
+        )
+        modifier_group.modifiers.create!(
+          item: component,
+          modifier_group:,
+          display_order: k + 1,
+          default_quantity: rand(1..5),
+          price_override: rand(5.99..19.99)
+        )
+      end
+    end
+  end
+end
 end
