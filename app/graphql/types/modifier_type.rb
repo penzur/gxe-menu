@@ -1,13 +1,13 @@
 module Types
   class ModifierType < Types::BaseObject
-    field :id, ID, null: false
+    field :id, ID, null: false, cache_fragment: true
 
-    field :display_order, Integer, null: false
-    field :default_quantity, Integer, null: false
-    field :price_override, Float, null: false
-    field :modifier_group, ModifierGroupType, null: true
+    field :display_order, Integer, null: false, cache_fragment: true
+    field :default_quantity, Integer, null: false, cache_fragment: true
+    field :price_override, Float, null: false, cache_fragment: true
+    field :modifier_group, ModifierGroupType, null: true, cache_fragment: true
 
-    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false, cache_fragment: true
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false, cache_fragment: true
   end
 end

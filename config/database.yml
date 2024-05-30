@@ -22,7 +22,5 @@ test:
   database: storage/test.sqlite3
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
-  timeout: 5000
+  <<: *default
+  database: storage/production.sqlite3
